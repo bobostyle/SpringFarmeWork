@@ -14,18 +14,20 @@ import org.smart4j.chapter2.model.Customer;
 public interface CustomerService {
 	
 	//获取客户列表
-	public List<Customer> getCustomer();
+	public List<Customer> getAllCustomer();
 	
 	//根据Id 查询客户
-	public Customer getCustomer(long id);
+	public Customer getCustomerByPrimKey(long id);
 	
-	//创建客户
-	public boolean createCustomer(Map<String, Object> fieldMap);
+	//添加客户
+	public int addCustomer();
 	
-	//更新客户
-	public boolean updateCustomer(long id, Map<String, Object> filedMap);
+	//更新客户 (返回更新的条数)
+	public int updateCustomer(long id, Map<String, Object> filedMap);
 	
 	//删除客户
-	public boolean deleteCustomer(long id);
+	public int deleteCustomer(long id);
 	
+	//如何实现批量更新，参数怎么传入
+	public int updateCustomers();
 }

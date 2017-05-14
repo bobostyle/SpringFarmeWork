@@ -1,5 +1,6 @@
 package org.smart4j.chapter2.controller;
 
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,10 +11,10 @@ import javax.servlet.http.HttpServletResponse;
  * @author cbb
  * TODO 查询所有的用户
  */ 
-public class CustomerShowServlet extends HttpServlet{
 
+@WebServlet("/customer_show")
+public class CustomerShowServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
-	
 	//获取资源
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse reps){
