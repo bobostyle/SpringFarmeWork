@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+ <!-- 引用jdbc.properties配置文件 -->
+ <properties resource="properties/jdbc.properties"></properties>
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>  <!--mybatis的事务，使用jdbc的事务，提交事务，如果出现异常，那么捕获，并且进行回滚 -->
+      <dataSource type="POOLED"> <!--已经缓存的。指使用缓存 -->
+        <property name="driver" value="${driver}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+      </dataSource>
+    </environment>
+  </environments>
+  <mappers>
+    <mapper resource="mapper/customerMapper.xml"/>
+  </mappers>
+</configuration>
+
+<!--除了配置数据库的环境信息外，这个xml还可以配置事务管理和mybatis的连接池 -->

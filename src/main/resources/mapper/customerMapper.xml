@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.smart4j.chapter2.service.dao.CustomerMapper">
+	<!-- 这里还缺表的映射 -->
+	<!--  <resultMap type="" id =""></resultMap> -->
+	<!-- 注意在Mapper Instance中不能够出现方法名一样的方法，即使参数不一样 -->
+	<select id="selectCustomerById" resultType="org.smart4j.chapter2.model.Customer" parameterType="Long">
+  		select * from customer where id = #{id}
+    </select>
+    
+    <select id="selectAllCustomer" resultType="org.smart4j.chapter2.model.Customer" parameterType="Long">
+    	select * from customer
+    </select>
+    
+    <!-- 这里应该使用动态Sql,适应于更复杂的sql语句 -->
+    <!-- 
+    <insert id="insertCustomer"  resultType="Boolean" parameterType="org.smart4j.chapter2.model.Customer">
+    </insert>  
+    <update id="updateCustomer" resultType="Boolean" >
+    </update>
+    <delete id="deleteCustomerById" > </delete>
+     -->
+     
+</mapper>
