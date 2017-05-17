@@ -47,4 +47,13 @@ public class SqlSessionBuilderManager {
 			session.close();
 		}
 	}
+	
+	/*
+	 * 事务操作，如果出现异常，那么就会回滚
+	 */
+	public void rollBack(SqlSession session){
+		if(session != null){
+			session.rollback();
+		}
+	}
 }

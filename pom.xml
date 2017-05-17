@@ -9,19 +9,17 @@
   		<log4j.version>1.2.12</log4j.version>
   		<!-- mybatis的版本号-->
   		<mybatis.version>3.2.1</mybatis.version>
-  		<!-- Spring版本 -->
-  		<Spring-version>4.3.7.RELEASE</Spring-version>
   		<!-- Junit版本 -->
   		<Junit-version>4.12</Junit-version> 
-  		<!-- Mybatis-Spring版本 -->
-  		<Spring-Mybatis>1.3.0</Spring-Mybatis>
+  		<!-- Slf4j版本 -->
+  		<slf4j-version>1.7.7</slf4j-version>  
+  		
   		<!-- 统一源码的编码格式为UTF-8 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	
+	<!--
 	<build>
 		<plugins>
-			<!-- Complier插件 --> 
 			<plugin>
 				  <groupId>org.apache.maven.plugins</groupId>
        			  <artifactId>maven-complier-plugin</artifactId>
@@ -31,7 +29,7 @@
         		  	<target>1.6</target>
         		  </configuration>
 			</plugin>
-			<!-- surefire插件 -->
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
        			<artifactId>maven-surefire-plugin</artifactId>
@@ -42,20 +40,9 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+	-->
 	<dependencies>  
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-context</artifactId>
-        <version>${Spring-version}</version>
-    </dependency>
-    
-    <dependency>
-    	<groupId>org.springframework</groupId>
-    	<artifactId>spring-core</artifactId>
-    	<version>${Spring-version}</version>
-	</dependency>
-	
+   
 	<dependency>
     	<groupId>junit</groupId>
    	    <artifactId>junit</artifactId>
@@ -73,24 +60,6 @@
 		<groupId>log4j</groupId>
 		<artifactId>log4j</artifactId>
 		<version>${log4j.version}</version>
-	</dependency>
-	
-	<dependency>
-    	<groupId>org.springframework</groupId>
-    	<artifactId>spring-jdbc</artifactId>
-    	<version>${Spring-version}</version>
-	</dependency>
-	
-	<dependency>
-    	<groupId>org.springframework</groupId>
-    	<artifactId>spring-test</artifactId>
-    	<version>${Spring-version}</version>
-	</dependency>
-
-	<dependency>
-   	 	<groupId>org.mybatis</groupId>
-    	<artifactId>mybatis-spring</artifactId>
-   	 <version>${Spring-Mybatis}</version>
 	</dependency>
 
 	<dependency>
@@ -130,10 +99,32 @@
 	</dependency>
 	
 	<dependency>
-  	  <groupId>org.apache.httpcomponents</groupId>
-  	  <artifactId>httpclient</artifactId>
-    	<version>4.5.2</version>
-	</dependency>
-	
+  	  <groupId>org.slf4j</groupId>
+   	  <artifactId>slf4j-api</artifactId>
+      <version>${slf4j-version}</version>
+    </dependency>
+    
+	<dependency>
+  	  <groupId>org.slf4j</groupId>
+   	  <artifactId>slf4j-nop</artifactId>
+      <version>1.7.7</version>
+    </dependency>
+    
+    <!-- Apache Commons Lang -->
+    <!--  
+	<dependency>
+  	  <groupId>org.apache.commons</groupId>
+   	  <artifactId>commons-lang3</artifactId>
+      <version>3.3.2</version>
+    </dependency>
+	-->
+	<!-- Apache Commons Collections -->
+	<!--  
+	<dependency>
+  	  <groupId>org.apache.commons</groupId>
+   	  <artifactId>commons-collections4</artifactId>
+      <version>4.0</version>
+    </dependency>
+	-->
 	</dependencies>
 </project>

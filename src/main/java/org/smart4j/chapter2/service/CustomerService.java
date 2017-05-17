@@ -20,7 +20,10 @@ public interface CustomerService {
 	public Customer getCustomerByPrimKey(long id);
 	
 	//添加客户
-	public int addCustomer();
+	public int addCustomer(Customer customer);
+	
+	//批量添加客户
+	public int addMulitCustomers(List<Customer> customers);
 	
 	//更新客户 (返回更新的条数)
 	public int updateCustomer(long id, Map<String, Object> filedMap);

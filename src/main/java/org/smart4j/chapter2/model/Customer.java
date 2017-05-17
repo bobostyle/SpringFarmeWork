@@ -8,10 +8,10 @@ package org.smart4j.chapter2.model;
  */
 public class Customer {
 	
-	//ID
-	private long id;
+	//ID 主键
+	private long id; 
 	
-	//对应商家的ID
+	//对应商家的ID 外键
 	private long businessId;
 	
 	//客户名称
@@ -114,9 +114,7 @@ public class Customer {
 	public void setBusinessId(long businessId) {
 		this.businessId = businessId;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+	
 	@Override
 	public String toString() {
 		return "Customer [id=" + id + ", businessId=" + businessId + ", name=" + name + ", contact=" + contact

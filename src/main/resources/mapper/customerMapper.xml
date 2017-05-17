@@ -3,24 +3,61 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.smart4j.chapter2.service.dao.CustomerMapper">
-	<!-- 这里还缺表的映射 -->
-	<!--  <resultMap type="" id =""></resultMap> -->
+	<!-- 实现实体的属性和表中的字段之间的映射 -->
+	<resultMap type="org.smart4j.chapter2.model.Customer" id="customerResultMap">
+		<id column="id"  property="id"></id>  <!-- 主键用id标签-->
+		<result column="name" property="name"></result> <!-- 非主键使用result标签 -->
+		<result column="contact" property="contact"></result>
+		<result column="telephone" property="telephone"></result>
+		<result column="email" property="email"></result>
+		<result column="remark" property="remark"></result>
+	</resultMap>
+	<!-- 
+	<parameterMap type="" id="table-all-columns">
+	</parameterMap>
+	-->
+	<!--表所有的基本字段列表 -->
+	<sql id="Base_Column_List">
+		id, name, contact, telephone, email, remark
+	</sql>
+	
 	<!-- 注意在Mapper Instance中不能够出现方法名一样的方法，即使参数不一样 -->
-	<select id="selectCustomerById" resultType="org.smart4j.chapter2.model.Customer" parameterType="Long">
-  		select * from customer where id = #{id}
+	<select id="selectCustomerById" resultType="org.smart4j.chapter2.model.Customer" parameterType="long">
+  		select 
+  		<include refid="Base_Column_List"/>
+  		from customer 
+  		<!-- where id=#{id, JdbcType=BIGINT} -->
+  		where id=#{id}
     </select>
     
-    <select id="selectAllCustomer" resultType="org.smart4j.chapter2.model.Customer" parameterType="Long">
-    	select * from customer
+    <select id="selectAllCustomer" resultType="org.smart4j.chapter2.model.Customer" parameterType="long">
+    	select 
+    	<include refid="Base_Column_List"></include>
+    	 from customer
     </select>
-    
+   
     <!-- 这里应该使用动态Sql,适应于更复杂的sql语句 -->
-    <!-- 
-    <insert id="insertCustomer"  resultType="Boolean" parameterType="org.smart4j.chapter2.model.Customer">
+    <insert id="insertCustomer" parameterType="org.smart4j.chapter2.model.Customer">
+    	insert into customer
+    	(name, contact, telephone, email, remark)
+    	 values
+    	(#{name}, #{contact}, #{telephone}, #{email}, #{remark})
     </insert>  
-    <update id="updateCustomer" resultType="Boolean" >
+    
+    <update id="updateCustomer" parameterType="org.smart4j.chapter2.model.Customer">
+    	update customer
+    	<set> 
+			<if test="name != null">name=#{name}</if>
+			<if test="contact != null">contact=#{contact}</if>
+			<if test="telephone != null">telephome=#{telephone}</if>
+			<if test="email != null">email=#{email}</if>
+			<if test="remark != null">remark=#{remark}</if>
+    	</set>
+    	where id=#{id}
     </update>
-    <delete id="deleteCustomerById" > </delete>
-     -->
-     
+    
+    <delete id="deleteCustomerById" parameterType="long"> 
+		delete from customer where id=#{id}    
+    </delete>
+    
 </mapper>

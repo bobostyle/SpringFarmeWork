@@ -1,7 +1,7 @@
 package org.smart4j.chapter2.service.dao;
 
 import java.util.List;
-
+import java.util.Map;
 import org.apache.ibatis.annotations.Select;
 import org.smart4j.chapter2.model.Customer;
 
@@ -12,11 +12,15 @@ import org.smart4j.chapter2.model.Customer;
  * TODO mybatis
  */
 public interface CustomerMapper {
+	
 	List<Customer> selectAllCustomer();
+	
 	@Select("select * from customer where id = #{id}")
 	Customer selectCustomerByIdAnnotation(long id);
+	
 	Customer selectCustomerById(long id);
-	boolean deleteCustomerById(long id); 
-	boolean updateCustomer(Customer customer);
-	boolean insertCustomer(Customer customer);
+	
+	int deleteCustomerById(long id);   //在jdbc中执行更新操作的sql一般返回都默认是int类型，如果不成功就是0，或者是受影响的行数
+	int updateCustomer(Map<String, Object> filedsMap);
+	int insertCustomer(Customer customer);
 }

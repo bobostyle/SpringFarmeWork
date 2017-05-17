@@ -1,0 +1,47 @@
+技术要求：
+1、前端(jsp)+后端(servlet+java+mybatis)+数据库 (mysql)
+
+2、特殊要求
+>>> 使用sql脚本创建数据库表。
+注意: 不能直接在数据库中创建表，应该使用jdbc来实现。 
+不需要每次都创建表。会有多次登录的概念吗？
+>>> 不使用jdbc来进行查询。那样代码会很恶心。新socket中dao层就是那样。
+注意: 使用mybatis框架，全面学习mybatis，包括使用动态sql。
+>>> 获取所有客户信息的时候，考虑分页显示。 limit (0,10), limit (10,20)等。
+注意：对于很多用户的时候，创建索引提升查询效率。
+>>> 对mybatis配置一级或者二级缓存，如何使用? 
+>>> 表的级联查询,如何配置
+>>> 用注解代替xml文件
+>>> 加深对pom文件和Maven的使用和了解
+
+>>>JDBC事务的使用：通过Connection 对象获取一个conn，并且关闭自动向数据库提交要执行 的sql语句。
+当多条sql语句一起执行的时候，需要把这多条sql语句创建成一个事务，并且保证这些语句在同一时刻是同时执行的。
+比方说银行转账:
+用户A向用户B转账：
+update from account set money=money-100 where name='A';
+update from account set money=money+100 where name='B';
+使用jdbc自带的事务.
+主要点是：
+关闭connection的自动提交sql。设置事务为手动提交。
+	conn.setAutoCommit(false);
+ 在try块中添加事务的提交，如果没有异常那么表示提交成功。
+ 	conn.commit();
+ 尤其不能忘记在catch中添加事务的回滚。
+ 	conn.rollback();
+最后，设置事务提交方式为自动提交：
+	conn.setAutoCommit(true);
+
+>>> 对象的生命周期和DI(依赖注入)
+依赖注入的框架能够创建线程安全，事务的sqlsession和mapper直接给bean对象注入。并且不用考虑生命周期。
+可以参考 Mybatis-Spring 框架来了解如何使用带有DI框架的Mybatis
+
+>>> 能说清楚吗？ 对于Mapper类，只有接口没有实现类，却能够实现相关操作。
+这个是怎么做到的？
+猜测是使用动态代理，但能够详细点吗？
+
+>>> 如何使用mybatis中的日志，来定位问题。现在环境中没有配置好log4j，所以日志不打印。
+
+
+需求实现：
+1、基本的增删改查
+//这些都很玩具，但希望是一个复杂有用的玩具。
