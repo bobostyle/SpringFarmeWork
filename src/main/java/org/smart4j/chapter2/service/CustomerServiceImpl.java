@@ -64,6 +64,7 @@ public class CustomerServiceImpl implements CustomerService{
 		try{
 			CustomerMapper customerMapper= sqlSession.getMapper(CustomerMapper.class);
 			result = customerMapper.insertCustomer(customer);
+			SqlSessionBuilderManager.getInstance().commit(sqlSession);
 		}catch(Exception ex){
 			System.out.println(ex.getMessage());
 			//对于select查询操作不需要事务回滚，但是对于更新操作（update、insert、delete）如果异常的时候，需要事务回滚。
@@ -89,12 +90,13 @@ public class CustomerServiceImpl implements CustomerService{
 	
 	//传入的是id和需要修改后的字段。id是前台传过来的,这时候选中某条记录就会记录相应的id
 	@Override 
-	public int updateCustomer(long id, Map<String, Object> filedMap) {
+	public int updateCustomer(Customer customer) {
 		int result = 0;
 		SqlSession sqlSession = SqlSessionBuilderManager.getInstance().createSqlSession();
 		try{
 			CustomerMapper customerMapper = sqlSession.getMapper(CustomerMapper.class);
-			result = customerMapper.updateCustomer(filedMap);
+			result = customerMapper.updateCustomer(customer);
+			SqlSessionBuilderManager.getInstance().commit(sqlSession);
 		}catch(Exception ex){
 			System.out.println(ex.getMessage());
 			SqlSessionBuilderManager.getInstance().rollBack(sqlSession);
@@ -111,6 +113,7 @@ public class CustomerServiceImpl implements CustomerService{
 		try{
 			CustomerMapper customerMapper = sqlSession.getMapper(CustomerMapper.class);
 			result = customerMapper.deleteCustomerById(id);
+			SqlSessionBuilderManager.getInstance().commit(sqlSession);
 		}catch(Exception ex){
 			System.out.println(ex.getMessage());
 			SqlSessionBuilderManager.getInstance().rollBack(sqlSession);
@@ -124,5 +127,22 @@ public class CustomerServiceImpl implements CustomerService{
 	public int updateCustomers() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	
+	@Override
+	public List<Customer> getCustomersByCondition(Customer customer) {
+		List<Customer> customers = new ArrayList<Customer>();
+ 		SqlSession sqlSession = SqlSessionBuilderManager.getInstance().createSqlSession();
+		try{
+			CustomerMapper customerMapper = sqlSession.getMapper(CustomerMapper.class);
+			customers = customerMapper.selectCustomerBySomeCondition(customer);
+		}catch(Exception ex){
+			System.out.println(ex.getMessage());
+			SqlSessionBuilderManager.getInstance().rollBack(sqlSession);
+		}finally{
+			SqlSessionBuilderManager.getInstance().closeSqlSession(sqlSession);
+		}
+		return customers;
 	}
 }

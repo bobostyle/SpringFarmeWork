@@ -26,11 +26,15 @@ public interface CustomerService {
 	public int addMulitCustomers(List<Customer> customers);
 	
 	//更新客户 (返回更新的条数)
-	public int updateCustomer(long id, Map<String, Object> filedMap);
+	public int updateCustomer(Customer customer);
 	
 	//删除客户
 	public int deleteCustomer(long id);
 	
 	//如何实现批量更新，参数怎么传入
 	public int updateCustomers();
+	
+	//根据输入的条件来查询  (如果是模糊查询，比方说name like "zhang")
+	public List<Customer> getCustomersByCondition(Customer customer);
+		
 }

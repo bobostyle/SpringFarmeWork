@@ -56,4 +56,11 @@ public class SqlSessionBuilderManager {
 			session.rollback();
 		}
 	}
+	
+	public void commit(SqlSession session){
+		if(session != null){
+			session.commit();
+		}
+	}
+	
 }

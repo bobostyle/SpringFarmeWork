@@ -14,13 +14,13 @@ import org.smart4j.chapter2.model.Customer;
 public interface CustomerMapper {
 	
 	List<Customer> selectAllCustomer();
-	
+	List<Customer> selectCustomerBySomeCondition(Customer customer);
 	@Select("select * from customer where id = #{id}")
 	Customer selectCustomerByIdAnnotation(long id);
 	
 	Customer selectCustomerById(long id);
 	
 	int deleteCustomerById(long id);   //在jdbc中执行更新操作的sql一般返回都默认是int类型，如果不成功就是0，或者是受影响的行数
-	int updateCustomer(Map<String, Object> filedsMap);
+	int updateCustomer(Customer customer);
 	int insertCustomer(Customer customer);
 }

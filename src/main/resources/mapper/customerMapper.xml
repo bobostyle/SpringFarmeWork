@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.smart4j.chapter2.service.dao.CustomerMapper">
 	<!-- 实现实体的属性和表中的字段之间的映射 -->
-	<resultMap type="org.smart4j.chapter2.model.Customer" id="customerResultMap">
+	<resultMap type="Customer" id="customerResultMap">
 		<id column="id"  property="id"></id>  <!-- 主键用id标签-->
 		<result column="name" property="name"></result> <!-- 非主键使用result标签 -->
 		<result column="contact" property="contact"></result>
@@ -12,17 +12,14 @@
 		<result column="email" property="email"></result>
 		<result column="remark" property="remark"></result>
 	</resultMap>
-	<!-- 
-	<parameterMap type="" id="table-all-columns">
-	</parameterMap>
-	-->
+	
 	<!--表所有的基本字段列表 -->
 	<sql id="Base_Column_List">
 		id, name, contact, telephone, email, remark
 	</sql>
 	
 	<!-- 注意在Mapper Instance中不能够出现方法名一样的方法，即使参数不一样 -->
-	<select id="selectCustomerById" resultType="org.smart4j.chapter2.model.Customer" parameterType="long">
+	<select id="selectCustomerById" resultType="Customer" parameterType="long">
   		select 
   		<include refid="Base_Column_List"/>
   		from customer 
@@ -30,21 +27,31 @@
   		where id=#{id}
     </select>
     
-    <select id="selectAllCustomer" resultType="org.smart4j.chapter2.model.Customer" parameterType="long">
+    <select id="selectAllCustomer" resultType="Customer">
     	select 
     	<include refid="Base_Column_List"></include>
-    	 from customer
+    	from customer
     </select>
    
     <!-- 这里应该使用动态Sql,适应于更复杂的sql语句 -->
-    <insert id="insertCustomer" parameterType="org.smart4j.chapter2.model.Customer">
+    <insert id="insertCustomer" parameterType="Customer">
     	insert into customer
-    	(name, contact, telephone, email, remark)
-    	 values
+        (name, contact, telephone, email, remark)
+    	values
     	(#{name}, #{contact}, #{telephone}, #{email}, #{remark})
     </insert>  
     
-    <update id="updateCustomer" parameterType="org.smart4j.chapter2.model.Customer">
+    <select id="selectCustomerBySomeCondition" parameterType="Customer" resultMap="customerResultMap">
+    	select 
+    	<include refid="Base_Column_List"></include>
+    	from customer 
+    	<where>
+			<if test="contact!=null">contact=#{contact}</if>
+			<if test="email!=null">AND email like #{email}</if>
+    	</where>
+    </select>
+    
+    <update id="updateCustomer" parameterType="Customer">
     	update customer
     	<set> 
 			<if test="name != null">name=#{name}</if>
