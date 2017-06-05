@@ -7,6 +7,8 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * SqlSessionManager.java
@@ -15,7 +17,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
  * TODO 根据mybatis的配置文件，管理和创建sqlSession的
  */
 public class SqlSessionBuilderManager {
-	
+	private static final Logger logger = LoggerFactory.getLogger(SqlSessionBuilderManager.class);
 	private static SqlSessionBuilderManager instance = new SqlSessionBuilderManager();
 	private SqlSessionFactory sqlSessionFactory = null;
 	private SqlSessionBuilderManager(){
@@ -32,6 +34,8 @@ public class SqlSessionBuilderManager {
 			InputStream inputStream = Resources.getResourceAsStream(resource);
 			sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 		}catch(IOException e){
+			
+			
 			System.out.println(e.getMessage());
 		}
 	}

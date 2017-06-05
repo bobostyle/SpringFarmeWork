@@ -5,40 +5,51 @@
 <mapper namespace="org.smart4j.chapter2.service.dao.CustomerMapper">
 	<!-- 实现实体的属性和表中的字段之间的映射 -->
 	<resultMap type="Customer" id="customerResultMap">
-		<id column="id"  property="id"></id>  <!-- 主键用id标签-->
-		<result column="name" property="name"></result> <!-- 非主键使用result标签 -->
-		<result column="contact" property="contact"></result>
-		<result column="telephone" property="telephone"></result>
-		<result column="email" property="email"></result>
-		<result column="remark" property="remark"></result>
+		<id column="CUSTOMER_ID"  property="id"></id>  <!-- 主键用id标签-->
+		<result column="CUSTOMER_BUSINESS_ID" property="businessId"></result>
+		<result column="CUSTOMER_NAME" property="name"></result> <!-- 非主键使用result标签 -->
+		<result column="CUSTOMER_CONTACT" property="contact"></result>
+		<result column="CUSTOMER_TELEPHONE" property="telephone"></result>
+		<result column="CUSTOMER_EMAIL" property="email"></result>
+		<result column="CUSTOMER_REMARK" property="remark"></result>
 	</resultMap>
 	
 	<!--表所有的基本字段列表 -->
 	<sql id="Base_Column_List">
-		id, name, contact, telephone, email, remark
+		CUSTOMER_ID, CUSTOMER_BUSINESS_ID, CUSTOMER_NAME, CUSTOMER_CONTACT, CUSTOMER_TELEPHONE, CUSTOMER_EMAIL ,CUSTOMER_REMARK
 	</sql>
 	
 	<!-- 注意在Mapper Instance中不能够出现方法名一样的方法，即使参数不一样 -->
-	<select id="selectCustomerById" resultType="Customer" parameterType="long">
-  		select 
+	<select id="selectCustomerById" resultMap="customerResultMap" parameterType="long">
+  		SELECT 
   		<include refid="Base_Column_List"/>
-  		from customer 
+  		FROM CUSTOMER 
   		<!-- where id=#{id, JdbcType=BIGINT} -->
-  		where id=#{id}
+  		WHERE CUSTOMER_ID=#{id, jdbcType=BIGINT}
     </select>
     
-    <select id="selectAllCustomer" resultType="Customer">
-    	select 
+    <select id="selectCustomers" resultMap="customerResultMap" parameterType="long">
+    	SELECT 
+    	<include refid="Base_Column_List"/>
+    	FROM CUSTOMER
+    	WHERE CUSTOMER_ID in
+    	<foreach item="item" index="index" collection="list" open="("
+    		separator="," close=")">
+    		#{item, jdbcType=BIGINT}
+    	</foreach> 
+    </select>
+    
+    <select id="selectAllCustomer" resultMap="customerResultMap">
+    	SELECT 
     	<include refid="Base_Column_List"></include>
-    	from customer
+    	FROM CUSTOMER
     </select>
    
-    <!-- 这里应该使用动态Sql,适应于更复杂的sql语句 -->
     <insert id="insertCustomer" parameterType="Customer">
     	insert into customer
-        (name, contact, telephone, email, remark)
+        (CUSTOMER_BUSINESS_ID, CUSTOMER_NAME, CUSTOMER_CONTACT, CUSTOMER_TELEPHONE, CUSTOMER_EMAIL, CUSTOMER_REMARK)
     	values
-    	(#{name}, #{contact}, #{telephone}, #{email}, #{remark})
+    	(#{businessId}, #{name}, #{contact}, #{telephone}, #{email}, #{remark})
     </insert>  
     
     <select id="selectCustomerBySomeCondition" parameterType="Customer" resultMap="customerResultMap">

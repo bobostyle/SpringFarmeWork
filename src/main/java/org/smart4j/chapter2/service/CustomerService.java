@@ -1,8 +1,6 @@
 package org.smart4j.chapter2.service;
 
 import java.util.List;
-import java.util.Map;
-
 import org.smart4j.chapter2.model.Customer;
 
 /**
@@ -19,6 +17,12 @@ public interface CustomerService {
 	//根据Id 查询客户
 	public Customer getCustomerByPrimKey(long id);
 	
+	//根据输入的条件来查询  (如果是模糊查询，比方说name like "zhang")
+	public List<Customer> getCustomersByCondition(Customer customer);
+	
+	//查询多条记录 in语句
+	public List<Customer> getMulitsCustomers(List<Long> ids);
+	
 	//添加客户
 	public int addCustomer(Customer customer);
 	
@@ -28,13 +32,8 @@ public interface CustomerService {
 	//更新客户 (返回更新的条数)
 	public int updateCustomer(Customer customer);
 	
-	//删除客户
-	public int deleteCustomer(long id);
-	
-	//如何实现批量更新，参数怎么传入
 	public int updateCustomers();
 	
-	//根据输入的条件来查询  (如果是模糊查询，比方说name like "zhang")
-	public List<Customer> getCustomersByCondition(Customer customer);
-		
+	//删除客户
+	public int deleteCustomer(long id);
 }

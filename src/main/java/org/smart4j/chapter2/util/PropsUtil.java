@@ -1,6 +1,5 @@
 package org.smart4j.chapter2.util;
 
-import java.util.Properties;
 
 /**
  * PropsUtil.java
@@ -9,9 +8,5 @@ import java.util.Properties;
  * TODO 属性文件工具类
  */
 public class PropsUtil {
-
-	private Properties read = new Properties();
-	public void read(Properties pro){
-		
-	}
+	//不能使用mybatis中的Resource类,只能使用jdk中的Properties类来解析
 }

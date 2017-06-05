@@ -62,9 +62,7 @@ public class Business {
 	public void setCustomers(List<Customer> customers) {
 		this.customers = customers;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+	
 	@Override
 	public String toString() {
 		return "Business [id=" + id + ", name=" + name + ", address=" + address + ", customers=" + customers + "]";

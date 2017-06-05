@@ -5,13 +5,18 @@
 <configuration>
  <!-- 引用jdbc.properties配置文件 -->
  <properties resource="properties/jdbc.properties"></properties>
+ 
+ <!-- 
   <settings>  
   		<setting name="logImpl" value="LOG4J"/>  
   </settings> 
+  -->
   
   <typeAliases>
   	 <typeAlias alias="Customer" type="org.smart4j.chapter2.model.Customer"/>
+ 	 <typeAlias alias="Business" type="org.smart4j.chapter2.model.Business"/>
   </typeAliases>
+  
   <environments default="development">
     <environment id="development">
       <transactionManager type="JDBC"/>  <!--mybatis的事务，使用jdbc的事务，提交事务，如果出现异常，那么捕获，并且进行回滚 -->
@@ -25,8 +30,8 @@
   </environments>
   <mappers>
     <mapper resource="mapper/customerMapper.xml"/>
+    <mapper resource="mapper/businessMapper.xml"/>
   </mappers>
-  
 </configuration>
 
 <!--除了配置数据库的环境信息外，这个xml还可以配置事务管理和mybatis的连接池 -->
