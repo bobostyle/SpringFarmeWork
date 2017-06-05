@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.smart4j.chapter2.service.dao.BusinessMapper"> 
+	<resultMap id="businessResultMap" type="Business">
+		<id property="id" column="BUSINESS_ID"></id>
+		<result property="name" column="BUSINESS_NAME"></result>
+		<result property="address" column="BUSINESS_ADDRESS"></result>
+	</resultMap>
+	<sql id="Base_Column_List">
+		BUSINESS_ID, BUSINESS_NAME, BUSINESS_ADDRESS
+	</sql>
+	<select id="selectBusinessByPrimKey" parameterType="long" resultMap="businessResultMap">
+		select
+			<include refid="Base_Column_List"></include>
+		from BUSINESS
+		where BUSINESS_ID=#{id}
+	</select>
+</mapper>
