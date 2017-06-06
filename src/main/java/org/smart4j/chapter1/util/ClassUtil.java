@@ -1,4 +1,4 @@
-package org.smart4j.chapter1;
+package org.smart4j.chapter1.util;
 
 import java.io.File;
 import java.io.FileFilter;
