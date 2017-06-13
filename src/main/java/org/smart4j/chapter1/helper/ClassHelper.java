@@ -1,66 +1,53 @@
 package org.smart4j.chapter1.helper;
 
+import java.lang.annotation.Annotation;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.smart4j.chapter1.annotation.Controller;
 import org.smart4j.chapter1.annotation.Service;
 import org.smart4j.chapter1.util.ClassUtil;
+
 /**
- * ClassHelper.java
- * 2017年6月7日上午12:02:23
+ * Class.java
+ * 2017年6月12日下午10:14:09
  * @author cbb
- * TODO 类操作助手类
+ * TODO
  */
 public class ClassHelper {
-
-	private static final Set<Class<?>> CLASS_SET;
+	
+	private static Set<Class<?>> CLASS_SET = new HashSet<Class<?>>();
+	private static final String BASE_PACKAGE = ConfigHelper.getAppBasePackage(); //这里面是不是有一个加载顺序的问题
 	static{
-		String basePackage = ConfigHelper.getAppBasePackage();
-		CLASS_SET = ClassUtil.getClassSet(basePackage);
+		CLASS_SET = ClassUtil.getClassSet(BASE_PACKAGE);
 	}
-	/*
-	 * 获取应用包名下的所有类
-	 */
-	public static Set<Class<?>> getClassSet(){
+	
+	public static Set<Class<?>> getAllClassSet(){
 		return CLASS_SET;
 	}
 	
+	private static Set<Class<?>> getSpecifyClassSet(Class<? extends Annotation> clazz){
+		Set<Class<?>> classSets = new HashSet<Class<?>>();
+	    for(Class<?> clz : CLASS_SET){
+	    	if(clz.isAnnotationPresent(clazz)){
+	    		classSets.add(clz);
+	    	}
+	    }
+	    return classSets;
+	}
+	
 	/*
-	 * 获取基础包名下的所有Service类
+	 * 获取包下所有的Service的对象
 	 */
 	public static Set<Class<?>> getServiceClassSet(){
-		Set<Class<?>> classSet = new HashSet<Class<?>>();
-		for(Class<?> clazz : CLASS_SET){
-			if(clazz.isAnnotationPresent(Service.class)){
-				classSet.add(clazz);
-			}
-		}
-		return classSet;
+		return getSpecifyClassSet(Service.class); 
 	}
 	
 	/*
-	 * 获取基础包名下的所有Controller类
+	 * 获取包下所有的Controller对象 
 	 */
 	public static Set<Class<?>> getControllerClassSet(){
-		Set<Class<?>> classSet = new HashSet<Class<?>>();
-		for(Class<?> clazz : CLASS_SET){
-			if(clazz.isAnnotationPresent(Controller.class)){
-				classSet.add(clazz);
-			}
-		}
-		return classSet;
-	}
-	
-	/*
-	 * 获取应用名下所有的Bean类
-	 */
-	
-	public static Set<Class<?>> getBeanClassSet(){
-		Set<Class<?>> beanClassSet = new HashSet<Class<?>>();
-		beanClassSet.addAll(getServiceClassSet());
-		beanClassSet.addAll(getControllerClassSet());
-		return beanClassSet;
+		return getSpecifyClassSet(Controller.class);
 	}
 	
 }

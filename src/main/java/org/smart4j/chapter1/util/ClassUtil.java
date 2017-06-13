@@ -2,6 +2,7 @@ package org.smart4j.chapter1.util;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.lang.annotation.Annotation;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.Enumeration;
@@ -20,28 +21,6 @@ import java.util.jar.JarFile;
  * 3、继承了某父类的所有子类 (extends Pather)
  */
 public class ClassUtil {
-	
-	/*
-	 * 获取类加载器
-	 */
-	public static ClassLoader getClassLoader(){
-		return Thread.currentThread().getContextClassLoader();
-	}
-	
-	/*
-	 * 加载类 ,异常捕获了还是可以继续扔出来的
-	 */
-	public static Class<?> loadClass(String className, boolean isInitiallized) {
-		Class<?> clazz = null;
-		try{
-			clazz = Class.forName(className, isInitiallized, getClassLoader());
-		}catch(ClassNotFoundException e){
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-			throw new RuntimeException();
-		}
-		return clazz;
-	}
 	
 	/*
 	 * 获取指定包名下的所有类
@@ -82,6 +61,22 @@ public class ClassUtil {
 		return classSet;
 	}
 	
+	private static ClassLoader getClassLoader(){
+		return Thread.currentThread().getContextClassLoader();
+	}
+	
+	private static Class<?> loadClass(String className, boolean isInitiallized) {
+		Class<?> clazz = null;
+		try{
+			clazz = Class.forName(className, isInitiallized, getClassLoader());
+		}catch(ClassNotFoundException e){
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+		return clazz;
+	}
+	
 	private static void addClass(Set<Class<?>> classSet, String packagePath, String packageName){
 		File[] files = new File(packagePath).listFiles(new FileFilter(){
 			@Override
@@ -115,6 +110,34 @@ public class ClassUtil {
 	private static void doAddClass(Set<Class<?>> classSet, String className){
 		Class<?> clazz = loadClass(className, false);
 		classSet.add(clazz);
+	}
+	
+	//传入包名和类对象，就可以获取该包下，使用了传入注解的所有类
+	//调用ClassUtil类的接口，获取指定包下的所有类
+	//Class.isAnnotationPresent(Class))
+	public static Set<Class<?>> getAllSpecifyAnnotation(String packageName, Class<? extends Annotation> clazz){
+		Set<Class<?>> allClass = getClassSet(packageName); 
+		Set<Class<?>> classes = new HashSet<Class<?>>();
+		for(Class<?> czz : allClass){
+			if(czz.isAnnotationPresent(clazz)){
+				classes.add(czz);
+			}
+		}
+		return classes;
+	}
+
+	// 获取指定包下，所有实现了某接口的类
+	// 调用ClassUtil类的接口，获取指定包下的所有类
+	// public native boolean isAssignableFrom(Class<?> cls);
+	public static Set<Class<?>> getAllSpecifyImplClass(String packageName, Class<?> clazz) {
+		Set<Class<?>> clazzs = new HashSet<Class<?>>();
+		Set<Class<?>> allClass = getClassSet(packageName);
+		for (Class<?> clzz : allClass) {
+			if (clazz.isAssignableFrom(clzz)) {
+				clazzs.add(clzz);
+			}
+		}
+		return clazzs;
 	}
 }
  
